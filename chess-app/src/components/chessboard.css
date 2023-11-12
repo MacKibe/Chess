@@ -1,0 +1,19 @@
+/* The style of the chessboard */
+#chessboard {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    width: 650px;
+    height: 650px;
+    background-color: blue;
+}
+
+/* Dark cell */
+.dark {
+    background-color: rgb(119, 153, 84);
+}
+
+/* White cell */
+.light {
+    background-color: rgb(233, 237, 204);
+}
