@@ -21,7 +21,12 @@ const board: Array<JSX.Element> = [];
 //A single cell in the board
 const Cell: React.FC<{ f: file; r: rank; color: 'dark' | 'light' }> = ({ f, r, color }) => {
     //Render the cell given the properties
-    return <span className={`${color}`}></span>;
+    return (
+        <span className={`cell ${color}`}>
+            {f == 'a' ? r : null}
+            {r == '1' ? <p className="file_label">{`${f}`}</p> : null}
+        </span>
+    );
 };
 //
 //Iterate over the horizontal and vertical axis populating the board with all the cells 64
