@@ -1,14 +1,15 @@
 //
 //A piece has the following properties and behaviours
 //1.The proxy of the piece -visual reperesentation of the peice
-//2.The horizontal position x - the file where the piece is currently at
-//3.The vertical position y - the rank which the piece is located
+//2.The position of the piece - This comprises the file(x) and the rank(y) of the piece
 //N.B: when the game begins each piece has a default position the starting point
 //4.An array of possible moves for each piece
 //5.The color of the piece
+//6.The status of the piece -  wether the piece has been captured or its still on the board
+//7.A flag to indicate weather the piece has mad a move or not
 //
-//Define the players
-type player = 'black' | 'white';
+//Define the possible color of players
+type color = 'black' | 'white';
 //
 //Define the possible files
 type file = 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h';
@@ -26,7 +27,7 @@ abstract class piece {
     //
     //The consist of two players black and white
     //This property has an impact on the proxy
-    protected color: player;
+    protected player: color;
     //
     //The position of the piece
     protected coordinates: position;
@@ -42,9 +43,11 @@ abstract class piece {
     protected moves?: number[][];
     //
     //A piece can move and each piece will handle its movements
+    //After this process the coordinates of the piece on the board gets updated to the new position
     public abstract move(x: file, y: rank): void;
     //
     //Different pieces have different capture rules
+    //when a piece captures another piece it occupies the position initially occupied by the piece it captured
     public abstract capture(): void;
     //
     //Update the array of possible moves after and before completing a move
@@ -52,8 +55,8 @@ abstract class piece {
     ///
     //To construct a piece we need to know the colour and the
     //position on the board to place the piece
-    constructor(color: 'black' | 'white', x: file, y: rank) {
-        this.color = color;
+    constructor(player: color, x: file, y: rank) {
+        this.player = player;
         this.coordinates = { x, y };
     }
     //
@@ -61,12 +64,12 @@ abstract class piece {
 }
 //
 //The king
-class king extends piece {
+export class king extends piece {
     //
-    constructor(color: 'black' | 'white', x: file, y: rank) {
+    constructor(player: color, x: file, y: rank) {
         //
         //Initialize the parent class
-        super(color, x, y);
+        super(player, x, y);
     }
     //
     //The visual representation of this class
@@ -74,7 +77,7 @@ class king extends piece {
         return (
             <img
                 src={
-                    this.color === 'black'
+                    this.player === 'black'
                         ? '../assets/images/king_b.png'
                         : '../assets/images/king_w.png'
                 }
